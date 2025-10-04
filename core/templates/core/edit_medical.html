@@ -325,6 +325,15 @@
                         <i class="fas fa-save"></i>
                         <span>Update Client</span>
                     </button>
+                    
+                    <!-- Delete Button -->
+                    <button type="button" 
+                            onclick="confirmDelete({{ client.id }})"
+                            class="flex-1 bg-red-600 text-white px-6 py-4 rounded-lg hover:bg-red-700 transition-all duration-300 font-semibold inline-flex items-center space-x-3 justify-center">
+                        <i class="fas fa-trash"></i>
+                        <span>Delete Client</span>
+                    </button>
+                    
                     <a href="{% url 'dashboard_view' %}" class="flex-1 bg-gray-100 text-gray-700 px-6 py-4 rounded-lg hover:bg-gray-200 transition-all duration-300 font-semibold inline-flex items-center space-x-3 justify-center text-center">
                         <i class="fas fa-times"></i>
                         <span>Cancel</span>

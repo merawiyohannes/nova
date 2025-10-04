@@ -1,5 +1,25 @@
 // realsearch.js - Fixed version with proper search hide
 
+
+
+function confirmDelete(clientId) {
+    if (confirm('Are you sure you want to delete this client? This action cannot be undone.')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/client/${clientId}/delete/`;
+        
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'csrfmiddlewaretoken';
+        csrfInput.value = csrfToken;
+        form.appendChild(csrfInput);
+        
+        document.body.appendChild(form);
+        form.submit();
+    }  // <-- This closing bracket was missing
+}
+
 // Search functionality
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded - initializing realsearch.js');
@@ -257,3 +277,4 @@ function showNotification(message, type) {
         notification.remove();
     }, 4000);
 }
+

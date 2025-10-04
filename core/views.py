@@ -32,21 +32,33 @@ def client_view(request, client_id):
         'user_type': request.user.user_type
     })
 
+
 @login_required
 @user_passes_test(is_doctor, login_url='/dashboard/')
+def delete_client(request, client_id):
+    client = get_object_or_404(Client, id=client_id)
+    if request.method == 'POST':
+        client.delete()
+        return redirect('dashboard_view')
+    return redirect('edit_client_medical', client_id=client_id)
+
 @login_required
+@user_passes_test(is_doctor, login_url='/dashboard/')
 def edit_client_medical(request, client_id):
     client = get_object_or_404(Client, id=client_id)
     
     if request.method == 'POST':
-        client.diagnosis = request.POST.get('diagnosis', '')
-        client.treatment_plan = request.POST.get('treatment_plan', '')
-        client.prescriptions = request.POST.get('prescriptions', '')
-        client.doctor_notes = request.POST.get('doctor_notes', '')
-        client.save()
-        return redirect('dashboard')
+        form = MedicalEditForm(request.POST, instance=client)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard_view')
+    else:
+        form = MedicalEditForm(instance=client)  # This pre-fills all fields!
     
-    return render(request, 'core/edit_medical.html', {'client': client})
+    return render(request, 'core/edit_medical.html', {
+        'client': client,
+        'form': form  # Pass the form to template
+    })
 
 @login_required
 def add_client(request):

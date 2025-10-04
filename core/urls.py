@@ -31,4 +31,5 @@ urlpatterns = [
     
     # Notifications
     path('check-notifications/', views.check_notifications, name='check_notifications'),
+    path('client/<int:client_id>/delete/', views.delete_client, name='delete_client'),
 ]
