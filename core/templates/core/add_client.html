@@ -1,0 +1,190 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Add New Client{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-nova-green rounded-full flex items-center justify-center">
+                        <i class="fas fa-user-plus text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Add New Client</h1>
+                        <p class="text-gray-600">Register a new client in the system</p>
+                    </div>
+                </div>
+                <a href="{% url 'dashboard_view' %}" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-all duration-300 font-semibold inline-flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Debug Info -->
+        {% if form.errors %}
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <div class="flex items-center">
+                <i class="fas fa-bug text-yellow-600 mr-2"></i>
+                <span class="font-semibold text-yellow-800">Form Errors:</span>
+            </div>
+            <pre class="mt-2 text-sm text-yellow-700 overflow-auto">{{ form.errors }}</pre>
+        </div>
+        {% endif %}
+
+        <!-- Client Form Card -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-nova-green to-nova-light px-6 py-4">
+                <h2 class="text-lg font-semibold text-white">Client Information</h2>
+                <p class="text-green-100 text-sm">Fill in the client's basic details</p>
+            </div>
+            
+            <form method="POST" class="p-6 space-y-6">
+                {% csrf_token %}
+                
+                <!-- Name Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-user mr-2 text-nova-green"></i>
+                            First Name *
+                        </label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                        <p class="mt-2 text-sm text-red-600 flex items-center">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            {{ form.first_name.errors.0 }}
+                        </p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-user mr-2 text-nova-green"></i>
+                            Last Name *
+                        </label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                        <p class="mt-2 text-sm text-red-600 flex items-center">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            {{ form.last_name.errors.0 }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Age & Gender Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.age.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-birthday-cake mr-2 text-nova-green"></i>
+                            Age *
+                        </label>
+                        {{ form.age }}
+                        {% if form.age.errors %}
+                        <p class="mt-2 text-sm text-red-600 flex items-center">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            {{ form.age.errors.0 }}
+                        </p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="{{ form.gender.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-venus-mars mr-2 text-nova-green"></i>
+                            Gender *
+                        </label>
+                        {{ form.gender }}
+                        {% if form.gender.errors %}
+                        <p class="mt-2 text-sm text-red-600 flex items-center">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            {{ form.gender.errors.0 }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="{{ form.email.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-envelope mr-2 text-nova-green"></i>
+                        Email Address
+                    </label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <p class="mt-2 text-sm text-red-600 flex items-center">
+                        <i class="fas fa-exclamation-circle mr-1"></i>
+                        {{ form.email.errors.0 }}
+                    </p>
+                    {% endif %}
+                </div>
+
+                <!-- Phone Number with Prefix -->
+                <div>
+                    <label for="{{ form.phone.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-phone mr-2 text-nova-green"></i>
+                        Phone Number *
+                    </label>
+                    {{ form.phone }}
+                    <p class="mt-2 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-info-circle mr-1 text-nova-green"></i>
+                        Format: +251912345678 (starts with +2519 followed by 8 digits)
+                    </p>
+                    {% if form.phone.errors %}
+                    <p class="mt-2 text-sm text-red-600 flex items-center">
+                        <i class="fas fa-exclamation-circle mr-1"></i>
+                        {{ form.phone.errors.0 }}
+                    </p>
+                    {% endif %}
+                </div>
+                <!-- Form Errors -->
+                {% if form.non_field_errors %}
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                        <span class="text-red-800 font-semibold">Please fix the following errors:</span>
+                    </div>
+                    <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                        {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                    <button type="submit" class="flex-1 bg-nova-green text-white px-6 py-4 rounded-lg hover:bg-nova-light transition-all duration-300 font-semibold inline-flex items-center space-x-3 justify-center shadow-lg hover:shadow-xl">
+                        <i class="fas fa-save"></i>
+                        <span>Save Client</span>
+                    </button>
+                    <a href="{% url 'dashboard_view' %}" class="flex-1 bg-gray-100 text-gray-700 px-6 py-4 rounded-lg hover:bg-gray-200 transition-all duration-300 font-semibold inline-flex items-center space-x-3 justify-center text-center">
+                        <i class="fas fa-times"></i>
+                        <span>Cancel</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Card -->
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
+            <div class="flex items-start space-x-3">
+                <i class="fas fa-lightbulb text-blue-500 mt-1"></i>
+                <div>
+                    <h3 class="font-semibold text-blue-900">Quick Tips</h3>
+                    <ul class="mt-2 text-sm text-blue-700 space-y-1">
+                        <li>• Phone numbers automatically start with +2519</li>
+                        <li>• Only enter the remaining 8 digits</li>
+                        <li>• Email is optional but recommended for follow-ups</li>
+                        <li>• All other fields are required</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<!-- About Hero Section -->
+<section class="bg-gradient-to-r from-nova-green to-nova-light text-white py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-4">About Nova</h1>
+        <p class="text-xl text-green-100 max-w-3xl mx-auto">
+            Where medical expertise meets aesthetic excellence
+        </p>
+    </div>
+</section>
+
+<!-- Doctor Profile Section -->
+<section class="py-16 lg:py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Doctor Image -->
+            <div class="flex justify-center">
+                <div class="relative">
+                    <div class="w-full max-w-sm h-96 rounded-2xl shadow-lg overflow-hidden">
+                        <img src="{% static 'images/new-bg.png' %}" alt="Dr. Selamawit Tesfaye" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-nova-green text-white px-4 py-2 rounded-lg shadow-lg">
+                        <p class="font-semibold text-sm sm:text-base">Founder & Medical Director</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Doctor Info -->
+            <div class="space-y-6">
+                <div>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Dr. Selamawit Tesfaye</h2>
+                    <div class="w-20 h-1 bg-nova-green mb-4"></div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-nova-green rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <i class="fas fa-stethoscope text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">General Practitioner</h3>
+                            <p class="text-gray-600">Medical Doctor with extensive experience in general medicine and patient care</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-nova-green rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <i class="fas fa-award text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Certified Aesthetic Specialist</h3>
+                            <p class="text-gray-600">Advanced training and certification in aesthetic medicine and cosmetic procedures</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-nova-green rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <i class="fas fa-heart text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Dual Expertise</h3>
+                            <p class="text-gray-600">Combining medical knowledge with aesthetic artistry for safe, effective treatments</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 text-lg leading-relaxed">
+                    Dr. Selamawit Tesfaye brings a unique blend of medical expertise and aesthetic vision to Nova Skin Care & Hair Center. 
+                    Her background as a General Practitioner ensures that all treatments are approached with medical precision and safety, 
+                    while her specialized training in aesthetic medicine allows for beautiful, natural-looking results.
+                </p>
+                
+                <div class="pt-4">
+                    <a href="{% url 'contact_view' %}" class="bg-nova-green text-white px-8 py-3 rounded-lg hover:bg-nova-light transition-all duration-300 font-semibold inline-flex items-center space-x-2">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Book Consultation</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Values -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            <!-- Mission -->
+            <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-sm">
+                <div class="w-12 h-12 bg-nova-green rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-bullseye text-white text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    To provide exceptional skin and hair care treatments that combine medical expertise with aesthetic excellence, 
+                    helping our patients look and feel their best through safe, effective, and personalized care.
+                </p>
+            </div>
+            
+            <!-- Approach -->
+            <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-sm">
+                <div class="w-12 h-12 bg-nova-green rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-hands-helping text-white text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Approach</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Every treatment begins with a comprehensive consultation and medical assessment. We believe in personalized care 
+                    plans that address individual needs while maintaining the highest standards of medical safety and aesthetic quality.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

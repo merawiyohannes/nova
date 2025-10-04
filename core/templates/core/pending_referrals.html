@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Pending Referrals - Doctor Dashboard{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<section class="bg-gradient-to-r from-nova-green to-nova-light text-white py-8 lg:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <div>
+                <h1 class="text-3xl lg:text-4xl font-bold mb-2">Pending Patient Referrals</h1>
+                <p class="text-green-100 text-lg">
+                    Patients referred to you for consultation and treatment
+                </p>
+            </div>
+            <div class="mt-4 lg:mt-0">
+                <a href="{% url 'dashboard_view' %}" class="bg-white text-nova-green px-6 py-3 rounded-lg hover:bg-green-50 transition-all duration-300 font-semibold inline-flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Clients Section -->
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                Pending Referrals ({{ clients.count }})
+            </h2>
+            <p class="text-gray-600 mt-1">
+                Click on any patient to view their details and begin treatment
+            </p>
+        </div>
+
+        <!-- Clients Table Container -->
+        <div id="clients-container">
+            {% include 'core/clients_table.html' with clients=clients user_type=user_type %}
+        </div>
+    </div>
+</section>
+{% endblock %}

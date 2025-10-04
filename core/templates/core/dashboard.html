@@ -1,0 +1,259 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<section class="bg-gradient-to-r from-nova-green to-nova-light text-white py-8 lg:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <div>
+                <h1 class="text-3xl lg:text-4xl font-bold mb-2">
+                    {% if user_type == 'doctor' %}
+                        Doctor Dashboard
+                    {% elif user_type == 'receptionist' %}
+                        Receptionist Dashboard
+                    {% endif %}
+                </h1>
+                <p class="text-green-100 text-lg">
+                    Welcome back, {{ request.user.username }}!
+                </p>
+            </div>
+            <div class="mt-4 lg:mt-0">
+                <div class="bg-white text-nova-green px-6 py-3 rounded-lg shadow-lg">
+                    {% if user_type == 'doctor' %}
+                        {% if pending_referrals > 0 %}
+                        <a href="{% url 'pending_referrals_view' %}" 
+                           class="font-semibold hover:text-nova-light transition-colors duration-300 flex items-center">
+                            <i class="fas fa-bell animate-pulse mr-2"></i>
+                            <span class="mr-2">New Referrals:</span> 
+                            <span class="bg-red-500 text-white rounded-full px-2 py-1 text-sm" id="pending-referrals">
+                                {{ pending_referrals }}
+                            </span>
+                        </a>
+                        {% else %}
+                        <p class="font-semibold flex items-center">
+                            <i class="fas fa-bell mr-2"></i>
+                            Pending Referrals: <span id="pending-referrals">{{ pending_referrals }}</span>
+                        </p>
+                        {% endif %}
+                    {% else %}
+                        <p class="font-semibold">Total Clients: <span id="total-clients">{{ total_clients }}</span></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Action Bar Section -->
+<section class="py-6 bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <!-- Search Input -->
+            <div class="flex-1 max-w-2xl">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="search-input"
+                        class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-nova-green focus:border-transparent transition-all duration-300"
+                        placeholder="Search clients by name, phone, or email..."
+                    >
+                    <div id="search-loading" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <i class="fas fa-spinner fa-spin text-nova-green"></i>
+                    </div>
+                </div>
+                <div id="search-results-count" class="hidden mt-2 text-sm text-gray-600">
+                    Found <span id="results-count">0</span> results
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-3">
+                <!-- Add Client Button - For both doctor and receptionist -->
+                <a href="{% url 'add_client_view' %}" 
+                   class="bg-nova-green hover:bg-nova-light text-white px-6 py-3 rounded-lg font-semibold inline-flex items-center space-x-2 transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Add Client</span>
+                </a>
+
+                <!-- Admin Button - Only for doctors -->
+                {% if user_type == 'doctor' %}
+                <a href="{% url 'signup_view' %}" 
+                   class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold inline-flex items-center space-x-2 transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Add Receptionist</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Results Section - Positioned right below search bar -->
+<div id="search-results-container" class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="clients-container">
+            {% include 'core/clients_table.html' with clients=clients user_type=user_type %}
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<section class="py-8 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% if user_type == 'doctor' %}
+            <!-- Doctor-specific Cards -->
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-md text-3xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-blue-100">My Clients</p>
+                        <p class="text-2xl font-bold" id="stats-total">{{ my_patients_count }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-plus text-3xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-purple-100">New Today</p>
+                        <p class="text-2xl font-bold" id="stats-new">{{ new_today }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle text-3xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-green-100">Completed</p>
+                        <p class="text-2xl font-bold" id="stats-completed">{{ completed_treatments }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <!-- Receptionist Cards -->
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-users text-3xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-blue-100">Total Clients</p>
+                        <p class="text-2xl font-bold" id="stats-total">{{ total_clients }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-md text-3xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-purple-100">Referred</p>
+                        <p class="text-2xl font-bold" id="stats-referred">{{ referred_count }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-calendar-day text-3xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-green-100">Today</p>
+                        <p class="text-2xl font-bold" id="stats-today">{{ today_count }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Clients Section (Hidden when searching) -->
+<section id="regular-clients-section" class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                {% if user_type == 'doctor' %}
+                    All Patients
+                {% elif user_type == 'receptionist' %}
+                    All Clients
+                {% endif %}
+            </h2>
+            <p class="text-gray-600 mt-1">
+                {% if user_type == 'doctor' %}
+                    Manage your patients and their treatment progress
+                {% elif user_type == 'receptionist' %}
+                    Clients you have registered
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- This will be hidden during search -->
+        <div id="regular-clients-container">
+            {% include 'core/clients_table.html' with clients=clients user_type=user_type %}
+        </div>
+    </div>
+</section>
+
+<!-- Referral Modal -->
+<div id="referralModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+        <div class="px-6 py-4 border-b">
+            <h3 class="text-lg font-semibold text-gray-900">Refer Client to Doctor</h3>
+        </div>
+        <form id="referralForm" method="post" action="{% url 'refer_client' %}">
+            {% csrf_token %}
+            <input type="hidden" id="clientId" name="client_id">
+            <div class="px-6 py-4 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Select Doctor</label>
+                    <select name="referred_to" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-nova-green focus:border-transparent">
+                        <option value="">Choose a doctor...</option>
+                        {% for doctor in doctors %}
+                        <option value="{{ doctor.id }}">Dr. {{ doctor.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Referral Notes</label>
+                    <textarea name="referral_notes" rows="3" 
+                              placeholder="Any specific notes for the doctor..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-nova-green focus:border-transparent"></textarea>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t flex justify-end space-x-3">
+                <button type="button" onclick="closeReferralModal()" 
+                        class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium">
+                    Cancel
+                </button>
+                <button type="submit" 
+                        class="px-4 py-2 bg-nova-green text-white rounded-lg hover:bg-nova-light font-medium">
+                    Send Referral
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/realsearch.js' %}"></script>
+{% endblock %}

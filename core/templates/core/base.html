@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nova Skin Care & Hair Center{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nova-green': '#1a472a',
+                        'nova-light': '#2d5a3d',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-gray-900 flex flex-col min-h-screen font-sans">
+
+    <!-- Modern Navbar -->
+    <nav class="bg-nova-green text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-nova-green font-bold text-lg">N</span>
+                    </div>
+                    <div class="text-xl font-semibold tracking-tight">Nova Skin Care & Hair Center</div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="{% url 'home_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium">Home</a>
+                    <a href="{% url 'about_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium">About</a>
+                    <a href="{% url 'service_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium">Services</a>
+                    <a href="{% url 'contact_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium">Contact</a>
+                    {% if request.user.is_authenticated %}
+                    <!-- Authenticated staff -->
+                    <a href="{% url 'dashboard_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium relative">
+                        Dashboard
+                        {% if request.user.user_type == 'doctor' and pending_referrals > 0 %}
+                        <span class="navbar-notification-badge absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center animate-pulse">
+                            {{ pending_referrals }}
+                        </span>
+                        {% else %}
+                        <span class="navbar-notification-badge hidden absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"></span>
+                        {% endif %}
+                    </a>
+                    <form method="post" action="{% url 'logout_view' %}" class="" style="display: inline-block;">
+                        {% csrf_token %}
+                        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 font-semibold shadow-sm" type="submit">Logout ({{ request.user.username }})</button>
+                    </form>
+                {% else %}
+                    <!-- Public visitors - can see login but NOT signup -->
+                    <a href="{% url 'login_view' %}" class="bg-white text-nova-green px-4 py-2 rounded-lg hover:bg-green-50 transition-all duration-300 font-semibold shadow-sm">Staff Login</a>
+                {% endif %}
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden py-4 border-t border-green-700">
+                <div class="flex flex-col space-y-4">
+                    <a href="{% url 'home_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium py-2">Home</a>
+                    <a href="{% url 'about_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium py-2">About</a>
+                    <a href="{% url 'service_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium py-2">Services</a>
+                    <a href="{% url 'contact_view' %}" class="hover:text-green-300 transition-colors duration-300 font-medium py-2">Contact</a>
+                    {% if request.user.is_authenticated %}
+                        <form method="post" action="{% url 'logout_view' %}" class="" style="display: inline-block;">
+                            {% csrf_token %}
+                            <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 font-semibold shadow-sm" type="submit">Logout ({{ request.user.username }})</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login_view' %}" class="bg-white text-nova-green px-4 py-2 rounded-lg hover:bg-green-50 transition-all duration-300 font-semibold shadow-sm">Staff Login</a>
+                    {% endif %}            
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full">
+        {% block content %}
+        <!-- Modern Hero Section -->
+        <section class="bg-gradient-to-r from-nova-green to-nova-light text-white py-16 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">Premium Skin & Hair Care</h1>
+                <p class="text-xl lg:text-2xl mb-8 text-green-100 max-w-3xl mx-auto">
+                    Experience luxury treatments with scientifically proven results
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#" class="bg-white text-nova-green px-8 py-4 rounded-lg hover:bg-green-50 transition-all duration-300 font-semibold text-lg shadow-lg">
+                        Explore Services
+                    </a>
+                    <a href="#" class="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-nova-green transition-all duration-300 font-semibold text-lg">
+                        Book Consultation
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section class="py-16 lg:py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                    <!-- Feature 1 -->
+                    <div class="text-center p-6">
+                        <div class="w-16 h-16 bg-nova-green rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-spa text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Expert Treatments</h3>
+                        <p class="text-gray-600">Professional skincare and hair treatments tailored to your unique needs</p>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="text-center p-6">
+                        <div class="w-16 h-16 bg-nova-green rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-star text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Premium Products</h3>
+                        <p class="text-gray-600">High-quality, scientifically formulated products for optimal results</p>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="text-center p-6">
+                        <div class="w-16 h-16 bg-nova-green rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-md text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Certified Specialists</h3>
+                        <p class="text-gray-600">Our team of certified professionals ensures the best care for you</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endblock %}
+    </main>
+
+    <!-- Modern Footer -->
+    <!-- Modern Footer -->
+    <footer class="bg-nova-green text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-nova-green font-bold text-lg">N</span>
+                        </div>
+                        <div class="text-xl font-semibold">Nova Skin Care & Hair Center</div>
+                    </div>
+                    <p class="text-green-200 max-w-md">
+                        Transforming beauty through advanced skincare and hair treatments with a commitment to excellence and natural results.
+                    </p>
+                    
+                    <!-- Social Media -->
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://www.tiktok.com/@dr.selamtesfaye" 
+                        target="_blank"
+                        class="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-all duration-300">
+                            <i class="fab fa-tiktok text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'about_view' %}" class="text-green-200 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="{% url 'service_view' %}" class="text-green-200 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="{% url 'contact_view' %}" class="text-green-200 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-green-200">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Bole-Bulbula infront of Bole & Megenagna Taxi Terminal, Dan Pharmacy 1st Floor</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+251955936438" class="hover:text-white transition-colors">
+                                +251955936438
+                            </a>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:novaskincare@gmail.com" class="hover:text-white transition-colors">
+                                novaskincare@gmail.com
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-green-700 mt-8 pt-8 text-center text-green-300">
+                <p>&copy; 2025 Nova Skin Care & Hair Center. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hamburger Menu Script -->
+    <script src="{% static 'js/hamburger_view.js' %}"></script>
+
+</body>
+</html>

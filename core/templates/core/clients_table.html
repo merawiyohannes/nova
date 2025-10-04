@@ -1,0 +1,119 @@
+{% if clients %}
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age & Gender</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registered</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for client in clients %}
+                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 bg-nova-green rounded-full flex items-center justify-center">
+                                <span class="text-white font-semibold text-sm">
+                                    {{ client.first_name|first }}{{ client.last_name|first }}
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ client.first_name }} {{ client.last_name }}
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                    {% if client.diagnosis %}
+                                        <span class="text-green-600">● Diagnosed</span>
+                                    {% else %}
+                                        <span class="text-gray-400">● No diagnosis</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">{{ client.phone }}</div>
+                        <div class="text-sm text-gray-500">{{ client.email|default:"No email" }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">Age {{ client.age }}</div>
+                        <div class="text-sm text-gray-500">{{ client.get_gender_display }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        {% if client.is_referred %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                            {% if client.referral_status == 'completed' %}bg-green-100 text-green-800
+                            {% elif client.referral_status == 'in_progress' %}bg-blue-100 text-blue-800
+                            {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                            <i class="fas fa-{% if client.referral_status == 'completed' %}check
+                                            {% elif client.referral_status == 'in_progress' %}spinner
+                                            {% else %}user-md{% endif %} mr-1"></i>
+                            {% if client.referral_status == 'completed' %}Completed
+                            {% elif client.referral_status == 'in_progress' %}In Progress
+                            {% else %}Referred to Dr. {{ client.referred_to.username }}{% endif %}
+                        </span>
+                        {% else %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                            <i class="fas fa-clock mr-1"></i>
+                            Not Referred
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{ client.created_at|date:"M d, Y" }}
+                        <div class="text-xs text-gray-400">
+                            by {{ client.created_by.username }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <!-- Referral Button for Receptionist - ALWAYS VISIBLE -->
+                        {% if user_type == 'receptionist' %}
+                        <button onclick="openReferralModal({{ client.id }})" 
+                                class="text-purple-600 hover:text-purple-900 mr-4">
+                            <i class="fas fa-user-md mr-1"></i>
+                            {% if client.is_referred %}Re-refer{% else %}Refer{% endif %}
+                        </button>
+                        {% endif %}
+                        
+                        <!-- Medical Edit for Doctor -->
+                        {% if user_type == 'doctor' %}
+                        <a href="{% url 'edit_client_medical' client.id %}" class="text-nova-green hover:text-nova-light mr-4">
+                            <i class="fas fa-edit mr-1"></i>Edit Medical
+                        </a>
+                        {% endif %}
+                        
+                        <!-- View for both -->
+                        <a href="{% url 'client_view' client.id %}" class="text-blue-600 hover:text-blue-900">
+                            <i class="fas fa-eye mr-1"></i>View
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="bg-white rounded-lg shadow p-8 text-center">
+    <i class="fas fa-users text-gray-300 text-6xl mb-4"></i>
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">No Clients Found</h3>
+    <p class="text-gray-600 mb-4">
+        {% if user_type == 'doctor' %}
+            No clients have been registered in the system yet.
+        {% elif user_type == 'receptionist' %}
+            You haven't registered any clients yet.
+        {% endif %}
+    </p>
+    {% if user_type == 'receptionist' %}
+    <a href="{% url 'add_client_view' %}" class="bg-nova-green text-white px-6 py-3 rounded-lg hover:bg-nova-light transition-all duration-300 font-semibold inline-flex items-center space-x-2">
+        <i class="fas fa-plus"></i>
+        <span>Add Your First Client</span>
+    </a>
+    {% endif %}
+</div>
+{% endif %}

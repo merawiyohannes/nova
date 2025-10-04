@@ -1,0 +1,131 @@
+{% extends "core/base.html" %}
+
+{% block title %}NOVA Skin & Hair Clinic - Premium Dermatology Care{% endblock %}
+
+{% block content %}
+<!-- Modern Hero Section -->
+<section class="bg-gradient-to-r from-nova-green to-nova-light text-white py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">Transform Your Skin & Hair</h1>
+        <p class="text-xl lg:text-2xl mb-8 text-green-100 max-w-3xl mx-auto">
+            Expert aesthetics care with personalized treatment plans for radiant, healthy skin and hair
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'service_view' %}" class="bg-white text-nova-green px-8 py-4 rounded-lg hover:bg-green-50 transition-all duration-300 font-semibold text-lg shadow-lg">
+                Our Treatments
+            </a>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-16 lg:py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Our Specialized Treatments</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Comprehensive skincare and hair solutions for all your beauty needs</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Skincare -->
+            <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 shadow-lg border border-blue-100">
+                <div class="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-face-smile text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Skin Care</h3>
+                <ul class="text-gray-600 space-y-3">
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Acne & Scar Treatment
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Anti-Aging Solutions
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Pigmentation Correction
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Hydration Therapy
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Hair Care -->
+            <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-8 shadow-lg border border-purple-100">
+                <div class="w-14 h-14 bg-purple-500 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-user text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Hair Care</h3>
+                <ul class="text-gray-600 space-y-3">
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Hair Loss Treatment
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Scalp Therapies
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        PRP Therapy
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Hair Regrowth
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Advanced -->
+            <div class="bg-gradient-to-br from-green-50 to-white rounded-2xl p-8 shadow-lg border border-green-100">
+                <div class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-flask text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Advanced Treatments</h3>
+                <ul class="text-gray-600 space-y-3">
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Laser Treatments
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Chemical Peels
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Microdermabrasion
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check text-nova-green mr-3"></i>
+                        Skin Analysis
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gradient-to-r from-nova-green to-nova-light text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl lg:text-4xl font-bold mb-6">Ready for Your Transformation?</h2>
+        <p class="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+            Book your consultation today and start your journey to healthier skin and hair
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="tel:+251955936438" class="bg-white text-nova-green px-8 py-4 rounded-lg hover:bg-green-50 transition-all duration-300 font-semibold text-lg">
+                <i class="fas fa-phone mr-2"></i>Call Now
+            </a>
+            <a href="https://maps.app.goo.gl/aBc9frAJLbkdjNsW8" 
+            target="_blank" 
+            class="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-nova-green transition-all duration-300 font-semibold text-lg">
+                <i class="fas fa-map-marker-alt mr-2"></i>Visit Clinic
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,280 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Client Details - {{ client.full_name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 bg-gradient-to-r from-nova-green to-nova-light rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">
+                            {{ client.first_name|first }}{{ client.last_name|first }}
+                        </span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">{{ client.full_name }}</h1>
+                        <p class="text-gray-600">Client Details</p>
+                        <p class="text-sm text-nova-green font-semibold mt-1">
+                            <i class="fas fa-id-card mr-1"></i>
+                            Client ID: {{ client.id }}
+                        </p>
+                    </div>
+                </div>
+                <a href="{% url 'dashboard_view' %}" class="bg-nova-green text-white px-4 py-2 rounded-lg hover:bg-nova-light transition-all duration-300 font-semibold inline-flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Client Information Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <!-- Basic Info Card -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-3">
+                    <h3 class="text-white font-semibold flex items-center">
+                        <i class="fas fa-user-circle mr-2"></i>
+                        Basic Information
+                    </h3>
+                </div>
+                <div class="p-4 space-y-3">
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span class="text-sm font-medium text-gray-600">Full Name:</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ client.full_name }}</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span class="text-sm font-medium text-gray-600">Age:</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ client.age }} years</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span class="text-sm font-medium text-gray-600">Gender:</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ client.get_gender_display }}</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span class="text-sm font-medium text-gray-600">Phone:</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ client.phone }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium text-gray-600">Email:</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ client.email|default:"Not provided" }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Info Card -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-green-500 to-green-600 px-4 py-3">
+                    <h3 class="text-white font-semibold flex items-center">
+                        <i class="fas fa-calendar-plus mr-2"></i>
+                        Registration Info
+                    </h3>
+                </div>
+                <div class="p-4 space-y-3">
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span class="text-sm font-medium text-gray-600">Registered:</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ client.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span class="text-sm font-medium text-gray-600">Last Updated:</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ client.updated_at|date:"M d, Y" }}</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span class="text-sm font-medium text-gray-600">Last Visit:</span>
+                        <span class="text-sm font-semibold text-gray-900">
+                            {% if client.last_visited %}
+                                {{ client.last_visited|date:"M d, Y" }}
+                            {% else %}
+                                Never visited
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium text-gray-600">Registered By:</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ client.created_by.username }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Card -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 px-4 py-3">
+                    <h3 class="text-white font-semibold flex items-center">
+                        <i class="fas fa-chart-bar mr-2"></i>
+                        Status
+                    </h3>
+                </div>
+                <div class="p-4 space-y-4">
+                    <!-- Referral Status - ADDED THIS -->
+                    <div class="text-center">
+                        <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                            {% if client.is_referred %}bg-yellow-100 text-yellow-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                            <i class="fas fa-{% if client.is_referred %}user-md{% else %}clock{% endif %} mr-1"></i>
+                            {% if client.is_referred %}
+                                Referred to {{ client.referred_to.username }}
+                            {% else %}
+                                Not Referred
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                            {% if client.diagnosis %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                            <i class="fas fa-{% if client.diagnosis %}check{% else %}clock{% endif %} mr-1"></i>
+                            {% if client.diagnosis %}Diagnosed{% else %}No Diagnosis{% endif %}
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                            {% if client.treatment_plan %}bg-blue-100 text-blue-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                            <i class="fas fa-{% if client.treatment_plan %}check{% else %}times{% endif %} mr-1"></i>
+                            {% if client.treatment_plan %}Treatment Planned{% else %}No Treatment Plan{% endif %}
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                            {% if client.prescriptions %}bg-yellow-100 text-yellow-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                            <i class="fas fa-{% if client.prescriptions %}prescription{% else %}times{% endif %} mr-1"></i>
+                            {% if client.prescriptions %}Prescribed{% else %}No Prescriptions{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referral Information Card - ADDED THIS SECTION -->
+        {% if client.is_referred %}
+        <div class="bg-white rounded-xl shadow-lg border border-yellow-200 overflow-hidden mb-6">
+            <div class="bg-yellow-500 px-4 py-3">
+                <h3 class="text-white font-semibold flex items-center justify-between">
+                    <span class="flex items-center">
+                        <i class="fas fa-user-md mr-2"></i>
+                        Referral Information
+                    </span>
+                </h3>
+            </div>
+            <div class="p-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Referred To:</p>
+                        <p class="text-lg font-semibold text-gray-900">Dr. {{ client.referred_to.get_full_name|default:client.referred_to.username }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Referred At:</p>
+                        <p class="text-lg font-semibold text-gray-900">{{ client.referred_at|date:"M d, Y" }}</p>
+                    </div>
+                </div>
+                
+                <!-- Show referral status -->
+                <div class="mt-3">
+                    <p class="text-sm font-medium text-gray-600">Status:</p>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                        {% if client.referral_status == 'completed' %}bg-green-100 text-green-800
+                        {% elif client.referral_status == 'in_progress' %}bg-blue-100 text-blue-800
+                        {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                        <i class="fas fa-{% if client.referral_status == 'completed' %}check
+                                        {% elif client.referral_status == 'in_progress' %}spinner
+                                        {% else %}clock{% endif %} mr-1"></i>
+                        {{ client.get_referral_status_display }}
+                    </span>
+                    {% if client.referral_completed_at %}
+                    <p class="text-sm text-gray-600 mt-1">
+                        Completed on: {{ client.referral_completed_at|date:"M d, Y" }}
+                    </p>
+                    {% endif %}
+                </div>
+                
+                {% if client.referral_notes %}
+                <div class="mt-4">
+                    <p class="text-sm font-medium text-gray-600">Referral Notes:</p>
+                    <p class="text-gray-700 whitespace-pre-wrap bg-yellow-50 p-3 rounded-lg mt-1">{{ client.referral_notes }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Medical Information Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Diagnosis Card -->
+            {% if client.diagnosis %}
+            <div class="bg-white rounded-xl shadow-lg border border-blue-200 overflow-hidden">
+                <div class="bg-blue-500 px-4 py-3">
+                    <h3 class="text-white font-semibold flex items-center">
+                        <i class="fas fa-stethoscope mr-2"></i>
+                        Diagnosis
+                    </h3>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 whitespace-pre-wrap">{{ client.diagnosis }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Treatment Plan Card -->
+            {% if client.treatment_plan %}
+            <div class="bg-white rounded-xl shadow-lg border border-green-200 overflow-hidden">
+                <div class="bg-green-500 px-4 py-3">
+                    <h3 class="text-white font-semibold flex items-center">
+                        <i class="fas fa-heartbeat mr-2"></i>
+                        Treatment Plan
+                    </h3>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 whitespace-pre-wrap">{{ client.treatment_plan }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Prescriptions Card -->
+            {% if client.prescriptions %}
+            <div class="bg-white rounded-xl shadow-lg border border-purple-200 overflow-hidden">
+                <div class="bg-purple-500 px-4 py-3">
+                    <h3 class="text-white font-semibold flex items-center">
+                        <i class="fas fa-pills mr-2"></i>
+                        Prescriptions
+                    </h3>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 whitespace-pre-wrap">{{ client.prescriptions }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Doctor Notes Card -->
+            {% if client.doctor_notes %}
+            <div class="bg-white rounded-xl shadow-lg border border-orange-200 overflow-hidden">
+                <div class="bg-orange-500 px-4 py-3">
+                    <h3 class="text-white font-semibold flex items-center">
+                        <i class="fas fa-clipboard-list mr-2"></i>
+                        Doctor Notes
+                    </h3>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 whitespace-pre-wrap">{{ client.doctor_notes }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Empty State for Medical Info -->
+        {% if not client.diagnosis and not client.treatment_plan and not client.prescriptions and not client.doctor_notes %}
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-8 text-center">
+            <i class="fas fa-file-medical text-gray-300 text-6xl mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">No Medical Information</h3>
+            <p class="text-gray-600 mb-4">No medical details have been recorded for this client yet.</p>
+            {% if user_type == 'doctor' %}
+            <a href="{% url 'edit_client_medical' client.id %}" class="bg-nova-green text-white px-6 py-3 rounded-lg hover:bg-nova-light transition-all duration-300 font-semibold inline-flex items-center space-x-2">
+                <i class="fas fa-edit"></i>
+                <span>Add Medical Information</span>
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

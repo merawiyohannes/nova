@@ -1,0 +1,158 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<!-- Contact Hero Section -->
+<section class="bg-gradient-to-r from-gray-900 to-gray-700 text-white py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-4">Contact Us</h1>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+            Get in touch to schedule your consultation and begin your transformation
+        </p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-16 lg:py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Contact Information -->
+            <div class="space-y-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+                    <p class="text-gray-600 text-lg">
+                        Ready to start your journey to better skin and hair? Contact us today to book your appointment 
+                        or ask any questions about our services.
+                    </p>
+                </div>
+
+                <!-- Contact Details -->
+                <div class="space-y-6">
+                    <!-- Phone -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-nova-green rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-phone text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-1">Phone</h3>
+                            <a href="tel:+251955936438" class="text-gray-600 text-lg hover:text-nova-green transition-colors">
+                                +2519 55 93 64 38
+                            </a>
+                            <p class="text-gray-500 text-sm">Mon-Sat: 9:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-nova-green rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-envelope text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-1">Email</h3>
+                            <a href="mailto:novaskincare@gmail.com" class="text-gray-600 text-lg hover:text-nova-green transition-colors">
+                                novaskincare@gmail.com
+                            </a>
+                            <p class="text-gray-500 text-sm">We'll respond within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-nova-green rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-map-marker-alt text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-1">Location</h3>
+                            <p class="text-gray-600 text-lg">
+                                Bole-Bulbula, Addis Ababa<br>
+                                Infront of Bole & Megenagna Taxi terminal<br>
+                                Dan Pharmacy Building, 1st Floor
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Hours -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-nova-green rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-clock text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-1">Business Hours</h3>
+                            <div class="text-gray-600 text-lg space-y-1">
+                                <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                                <p>Saturday: 9:00 AM - 9:00 PM</p>
+                                <p>Sunday: 9:00 AM - 11:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Contact Card -->
+            <!-- Quick Contact Card -->
+            <div class="bg-gradient-to-br from-nova-green to-nova-light rounded-2xl p-8 shadow-lg text-white">
+                <div class="text-center">
+                    <i class="fas fa-comments text-white text-4xl mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-4">Quick Contact</h3>
+                    <p class="text-green-100 mb-6">
+                        Prefer to call or connect with us on social media? We're here to help with all your skincare and hair care needs.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <a href="tel:+251955936438" 
+                        class="w-full bg-white text-nova-green py-3 px-6 rounded-lg hover:bg-green-50 transition-all duration-300 font-semibold text-lg flex items-center justify-center">
+                            <i class="fas fa-phone mr-2"></i>
+                            Call Now
+                        </a>
+                        
+                        <a href="https://www.tiktok.com/@dr.selamtesfaye" 
+                        target="_blank"
+                        class="w-full bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition-all duration-300 font-semibold text-lg flex items-center justify-center">
+                            <i class="fab fa-tiktok mr-2"></i>
+                            Follow on TikTok
+                        </a>
+                    </div>
+                    
+                    <p class="text-green-200 text-sm mt-6">
+                        * Online form currently unavailable. Please use direct contact methods above.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Find NOVA Skin Care</h2>
+            <p class="text-gray-600">Dan Pharmacy Building, 1st Floor - Bole Bulbula, Addis Ababa</p>
+        </div>
+        
+        <!-- Google Map -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.8078999999996!2d38.817314!3d8.999395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85f0a9e57b97%3A0x5c72b5cee1e39b37!2sBole%20Bulbula%2C%20Addis%20Ababa!5e0!3m2!1sen!2set!4v1698765432100!5m2!1sen!2set"
+                width="100%" 
+                height="400" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <!-- Simple Directions -->
+        <div class="text-center mt-6">
+            <a href="https://maps.app.goo.gl/aBc9frAJLbkdjNsW8" 
+               target="_blank" 
+               class="inline-flex items-center bg-nova-green text-white px-6 py-3 rounded-lg hover:bg-nova-light transition-all font-semibold">
+                <i class="fas fa-directions mr-2"></i>
+                Open in Google Maps
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

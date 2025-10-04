@@ -1,0 +1,338 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Edit Client - {{ client.full_name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-nova-green rounded-full flex items-center justify-center">
+                        <i class="fas fa-user-edit text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Edit Client</h1>
+                        <p class="text-gray-600">Update client information and medical details</p>
+                        <p class="text-sm text-nova-green font-semibold mt-1">
+                            <i class="fas fa-user mr-1"></i>
+                            {{ client.full_name }}
+                        </p>
+                    </div>
+                </div>
+                <a href="{% url 'dashboard_view' %}" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-all duration-300 font-semibold inline-flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Client Form Card -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-nova-green to-nova-light px-6 py-4">
+                <h2 class="text-lg font-semibold text-white">Client Information</h2>
+                <p class="text-green-100 text-sm">Update basic details and medical information</p>
+            </div>
+            
+            <form method="POST" class="p-6 space-y-8">
+                {% csrf_token %}
+                
+                <!-- Basic Information Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                        <i class="fas fa-id-card mr-2 text-nova-green"></i>
+                        Basic Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- First Name -->
+                        <div>
+                            <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                First Name *
+                            </label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                {{ form.first_name.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Last Name -->
+                        <div>
+                            <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Last Name *
+                            </label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                {{ form.last_name.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <!-- Age -->
+                        <div>
+                            <label for="{{ form.age.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Age *
+                            </label>
+                            {{ form.age }}
+                            {% if form.age.errors %}
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                {{ form.age.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Gender -->
+                        <div>
+                            <label for="{{ form.gender.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Gender *
+                            </label>
+                            {{ form.gender }}
+                            {% if form.gender.errors %}
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                {{ form.gender.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <!-- Email -->
+                        <div>
+                            <label for="{{ form.email.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Email Address
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                {{ form.email.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div>
+                            <label for="phone_suffix" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Phone Number *
+                            </label>
+                            <div class="flex rounded-lg shadow-sm">
+                                <span class="inline-flex items-center px-4 py-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-700 font-medium">
+                                    +2519
+                                </span>
+                                <input 
+                                    type="text" 
+                                    name="phone_suffix" 
+                                    id="phone_suffix"
+                                    maxlength="8" 
+                                    pattern="[0-9]{8}"
+                                    required
+                                    class="flex-1 min-w-0 px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-nova-green focus:border-transparent transition-all duration-300"
+                                    placeholder="12345678"
+                                    title="Enter 8 digits after +2519"
+                                    value="{{ form.phone_suffix.value|default:'' }}"
+                                >
+                            </div>
+                            {% if form.phone_suffix.errors %}
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                {{ form.phone_suffix.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Information Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6 border-b border-gray-200 pb-2">
+                        <i class="fas fa-file-medical mr-2 text-nova-green"></i>
+                        Medical Information
+                    </h3>
+                    
+                    <div class="space-y-8">
+                        <!-- Diagnosis Card -->
+                        <div class="bg-gradient-to-r from-blue-50 to-white rounded-xl border border-blue-200 overflow-hidden">
+                            <div class="bg-blue-500 px-4 py-3">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-stethoscope text-white"></i>
+                                    <h4 class="text-white font-semibold">Diagnosis</h4>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                {{ form.diagnosis }}
+                                {% if form.diagnosis.errors %}
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    {{ form.diagnosis.errors.0 }}
+                                </p>
+                                {% endif %}
+                                <p class="text-xs text-blue-600 mt-2 flex items-center">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Medical diagnosis and clinical findings
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Treatment Plan Card -->
+                        <div class="bg-gradient-to-r from-green-50 to-white rounded-xl border border-green-200 overflow-hidden">
+                            <div class="bg-green-500 px-4 py-3">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-heartbeat text-white"></i>
+                                    <h4 class="text-white font-semibold">Treatment Plan</h4>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                {{ form.treatment_plan }}
+                                {% if form.treatment_plan.errors %}
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    {{ form.treatment_plan.errors.0 }}
+                                </p>
+                                {% endif %}
+                                <p class="text-xs text-green-600 mt-2 flex items-center">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Treatment procedures and care plan
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Prescriptions Card -->
+                        <div class="bg-gradient-to-r from-purple-50 to-white rounded-xl border border-purple-200 overflow-hidden">
+                            <div class="bg-purple-500 px-4 py-3">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-pills text-white"></i>
+                                    <h4 class="text-white font-semibold">Prescriptions</h4>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                {{ form.prescriptions }}
+                                {% if form.prescriptions.errors %}
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    {{ form.prescriptions.errors.0 }}
+                                </p>
+                                {% endif %}
+                                <p class="text-xs text-purple-600 mt-2 flex items-center">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Medications, dosages, and instructions
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Doctor Notes Card -->
+                        <div class="bg-gradient-to-r from-orange-50 to-white rounded-xl border border-orange-200 overflow-hidden">
+                            <div class="bg-orange-500 px-4 py-3">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-clipboard-list text-white"></i>
+                                    <h4 class="text-white font-semibold">Doctor Notes</h4>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                {{ form.doctor_notes }}
+                                {% if form.doctor_notes.errors %}
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    {{ form.doctor_notes.errors.0 }}
+                                </p>
+                                {% endif %}
+                                <p class="text-xs text-orange-600 mt-2 flex items-center">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Additional observations and follow-up instructions
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referral Management Section -->
+                {% if client.is_referred and client.referral_status != 'completed' %}
+                <div class="bg-gradient-to-r from-yellow-50 to-white rounded-xl border border-yellow-200 overflow-hidden">
+                    <div class="bg-yellow-500 px-4 py-3">
+                        <h3 class="text-white font-semibold flex items-center">
+                            <i class="fas fa-user-md mr-2"></i>
+                            Referral Management
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Current Status:</p>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    {{ client.get_referral_status_display }}
+                                </span>
+                            </div>
+                            <button 
+                                type="button" 
+                                onclick="completeReferral({{ client.id }})"
+                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 transition-all duration-300"
+                            >
+                                <i class="fas fa-check"></i>
+                                <span>Complete Referral</span>
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="font-medium text-gray-600">Referred To:</p>
+                                <p class="text-gray-900">Dr. {{ client.referred_to.get_full_name|default:client.referred_to.username }}</p>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-600">Referred At:</p>
+                                <p class="text-gray-900">{{ client.referred_at|date:"M d, Y" }}</p>
+                            </div>
+                        </div>
+                        
+                        {% if client.referral_notes %}
+                        <div class="mt-4">
+                            <p class="font-medium text-gray-600">Referral Notes:</p>
+                            <p class="text-gray-700 whitespace-pre-wrap bg-yellow-50 p-3 rounded-lg mt-1">{{ client.referral_notes }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Form Errors -->
+                {% if form.non_field_errors %}
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                        <span class="text-red-800 font-semibold">Please fix the following errors:</span>
+                    </div>
+                    <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                        {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                    <button type="submit" class="flex-1 bg-nova-green text-white px-6 py-4 rounded-lg hover:bg-nova-light transition-all duration-300 font-semibold inline-flex items-center space-x-3 justify-center shadow-lg hover:shadow-xl">
+                        <i class="fas fa-save"></i>
+                        <span>Update Client</span>
+                    </button>
+                    <a href="{% url 'dashboard_view' %}" class="flex-1 bg-gray-100 text-gray-700 px-6 py-4 rounded-lg hover:bg-gray-200 transition-all duration-300 font-semibold inline-flex items-center space-x-3 justify-center text-center">
+                        <i class="fas fa-times"></i>
+                        <span>Cancel</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/realsearch.js' %}"></script>
+{% endblock %}
