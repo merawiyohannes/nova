@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pwa',
     'core',
 ]
 
@@ -155,3 +156,42 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_MANIFEST_STRICT = False
 WHITENOISE_ALLOW_ALL_ORIGINS = True
+
+PWA_APP_NAME = 'Nova Skin & Hair Center'
+PWA_APP_SHORT_NAME = 'Nova'
+PWA_APP_DESCRIPTION = "Nova Skin & Hair Center web app"
+PWA_APP_THEME_COLOR = '#ffffff'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'portrait'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/images/android-chrome-192x192.png',
+        'sizes': '192x192'
+    },
+    {
+        'src': '/static/images/android-chrome-512x512.png',
+        'sizes': '512x512'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/images/android-chrome-192x192.png',
+        'sizes': '192x192'
+    },
+    {
+        'src': '/static/images/android-chrome-512x512.png',
+        'sizes': '512x512'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/static/images/android-chrome-512x512.png',
+        'media': '(device-width: 768px)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
