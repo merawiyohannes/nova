@@ -65,6 +65,11 @@ TEMPLATES = [
     },
 ]
 
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://front-door.merawiyohannes.workers.dev",
+]
+
 WSGI_APPLICATION = 'nova.wsgi.application'
 
 
